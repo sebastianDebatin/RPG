@@ -1,4 +1,5 @@
 import pygame
+import os
 
 
 ##environment variables
@@ -8,21 +9,40 @@ pygame.display.set_caption("RPG")
 
 
 
+
 ## constants
 FPS = 60
 
 
 
+def load_assets(dir_assets):
+    assets = {}
+    for filename in os.listdir(dir_assets):
+        if filename.endswith('.png'):
+            path = os.path.join(dir_assets, filename)
+            key = filename[:-4]
+            assets[key] = pygame.image.load(path).convert()
+
+    return assets
 
 
+def draw_window(WIN,assets):
+    WIN.fill((0,0,0))
+    WIN.blit(assets["tile_rock"],(0,0))
+
+    pygame.display.update()
 
 
 
 
 def main():
 
+
+    assets = load_assets("./assets")
     clock = pygame.time.Clock()
     run = True
+    print(assets["tile_rock"])
+    
 
     while run:
         clock.tick(FPS)
@@ -37,6 +57,11 @@ def main():
             #     if event.key == pygame.K_a:
             #         run = False
             #         pygame.quit()
+
+
+
+
+        draw_window(WIN,assets)
 
 
 
