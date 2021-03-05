@@ -16,15 +16,13 @@ import sys
 class gamestate():
     def __init__(self,WIN,pygame):
         self.run = True
-        self.state = "init"
+        self.state = "menu"
         self.WIN = WIN
         self.pygame = pygame
 
 
 
     def gamestate_manager(self):
-        if self.state == "init":
-            self.load()
         if self.state == "quit":
             self.run = False
             self.pygame.quit()
@@ -34,15 +32,22 @@ class gamestate():
 
     def load(self):
         #print("load")
+        def draw_window():
+            self.WIN.fill((0,0,0))
+            loading = self.pygame.draw.rect(self.WIN, (255,0,0), (175, 75, 200, 100), 2)
+            self.pygame.display.update()
+
+        draw_window()    
         self.assets = self.load_assets("./assets")
-        self.state = "menu"
+        self.pygame.time.wait(5000)
+
 
 
     def menu_loop(self):
         #print("menu")
-        def draw_window(WIN, assets):
+        def draw_window():
             self.WIN.fill((0,0,0))
-            self.WIN.blit(assets["tile_rock"],(0,0))
+            self.WIN.blit(self.assets["tile_rock"],(0,0))
             self.pygame.display.update()
 
         
@@ -55,11 +60,20 @@ class gamestate():
                 if event.key == self.pygame.K_a:
                     self.state = "quit"
         
-        draw_window(self.WIN,self.assets)
+        draw_window()
 
 
-    def level1_loop(self):
-        pass
+    def newlevel_loop(self):
+        def draw_window():
+            self.WIN.fill((0,0,0))
+            #self.WIN.blit(self.assets["tile_rock"],(0,0))
+            self.pygame.display.update()
+
+        for event in self.pygame.event.get():
+
+            if event.type == self.pygame.QUIT:
+                self.state = "quit"
+
 
 
     def load_assets(self,dir_assets):

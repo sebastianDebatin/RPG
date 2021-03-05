@@ -27,6 +27,8 @@ def main():
     clock = pygame.time.Clock()
     game_state = gamestate(WIN,pygame)
 
+    game_state.load()
+
 
     ##loop
     while game_state.run:
