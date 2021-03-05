@@ -1,10 +1,18 @@
+"""
+Main function of the RPG. Short game description follows as soon as title and content of the game are designed
+This file is made up of two parts:
+    The initiation to init all parameters that need to be initiated only once
+    The while loop that runs until the game is stopped somehow
+"""
+
 import pygame
 import os
+from files.gamestate import gamestate
 
 
 ##environment variables
-#WIDTH, HEIGHT = 800, 600
-WIN = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+WIDTH, HEIGHT = 800, 600
+WIN = pygame.display.set_mode((WIDTH,HEIGHT))#for Fullscreen: (0, 0), pygame.FULLSCREEN
 pygame.display.set_caption("RPG")
 
 
@@ -14,70 +22,17 @@ pygame.display.set_caption("RPG")
 FPS = 60
 
 
-
-def load_assets(dir_assets):
-    assets = {}
-    for filename in os.listdir(dir_assets):
-        if filename.endswith('.png'):
-            path = os.path.join(dir_assets, filename)
-            key = filename[:-4]
-            assets[key] = pygame.image.load(path).convert()
-
-    return assets
-
-
-def draw_window(WIN,assets):
-    WIN.fill((0,0,0))
-    WIN.blit(assets["tile_rock"],(0,0))
-
-    pygame.display.update()
-
-
-
-
 def main():
-
-
-    assets = load_assets("./assets")
+    ##inits
     clock = pygame.time.Clock()
-    run = True
-    print(assets["tile_rock"])
-    
+    game_state = gamestate(WIN,pygame)
 
-    while run:
+
+    ##loop
+    while game_state.run:
+        game_state.gamestate_manager()
         clock.tick(FPS)
-
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
-                pygame.quit()
-
-            # if event.type == pygame.KEYDOWN:
-            #     if event.key == pygame.K_a:
-            #         run = False
-            #         pygame.quit()
-
-
-
-
-        draw_window(WIN,assets)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
 
 
 
