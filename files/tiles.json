@@ -15,6 +15,15 @@
         "identifier": 2,
         "path": "./assets/grass.png",
         "transparent": false,
+        "solid": false
+    },
+
+    "wall":
+    {
+        "name" : "wall",
+        "identifier": 3,
+        "path": "./assets/wall.png",
+        "transparent": false,
         "solid": true
     }
 }
