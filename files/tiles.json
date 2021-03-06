@@ -1,11 +1,20 @@
 {
     "rock":
     {
-        "name" : "rock_tile",
+        "name" : "rock",
         "identifier": 1,
-        "asset": "./assets/tile_rock.png",
+        "path": "./assets/tile_rock.png",
         "transparent": false,
         "solid": true
 
+    },
+
+    "grass":
+    {
+        "name" : "grass",
+        "identifier": 2,
+        "path": "./assets/grass.png",
+        "transparent": false,
+        "solid": true
     }
 }
