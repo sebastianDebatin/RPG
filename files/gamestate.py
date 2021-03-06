@@ -10,6 +10,7 @@ Each level contains its own draw_window() function and keyboard handling
 
 import os
 import sys
+import json
 
 
 
@@ -38,8 +39,9 @@ class gamestate():
             self.pygame.display.update()
 
         draw_window()    
-        self.assets = self.load_assets("./assets")
-        self.pygame.time.wait(5000)
+        self.tiles = self.load_tiles("./files/tiles.json")
+        print(self.tiles)
+        self.pygame.time.wait(5000) # test purpose
 
 
 
@@ -47,7 +49,7 @@ class gamestate():
         #print("menu")
         def draw_window():
             self.WIN.fill((0,0,0))
-            self.WIN.blit(self.assets["tile_rock"],(0,0))
+            self.WIN.blit(self.tiles["rock"]["image"],(0,0))
             self.pygame.display.update()
 
         
@@ -61,6 +63,21 @@ class gamestate():
                     self.state = "quit"
         
         draw_window()
+
+    def load_tiles(self, path):
+        tiles = {}
+
+        with open(path) as f:
+            t = json.load(f)
+            for tile in t:
+                tile = t[tile]
+                dic = {}
+                dic["identifier"] = tile["identifier"]
+                dic["image"] = self.pygame.image.load(tile["path"]).convert()
+                dic["transparent"] = tile["transparent"]
+                dic["solid"] = tile["solid"]
+                tiles[tile["name"]] = dic
+        return tiles
 
 
     def newlevel_loop(self):
@@ -76,15 +93,19 @@ class gamestate():
 
 
 
-    def load_assets(self,dir_assets):
-        assets = {}
-        for filename in os.listdir(dir_assets):
-            if filename.endswith('.png'):
-                path = os.path.join(dir_assets, filename)
-                key = filename[:-4]
-                assets[key] = self.pygame.image.load(path).convert()
+    # def load_assets(self,dir_assets):
+    #     assets = {}
+    #     for filename in os.listdir(dir_assets):
+    #         if filename.endswith('.png'):
+    #             path = os.path.join(dir_assets, filename)
+    #             key = filename[:-4]
+    #             assets[key] = self.pygame.image.load(path).convert()
 
-        return assets
+    #     return assets
+
+
+
+
 
 
     
