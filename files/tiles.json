@@ -3,7 +3,7 @@
     {
         "name" : "rock",
         "identifier": 1,
-        "path": "./assets/tile_rock.png",
+        "path": "./files/assets/tile_rock.png",
         "transparent": false,
         "solid": true
 
@@ -13,7 +13,7 @@
     {
         "name" : "grass",
         "identifier": 2,
-        "path": "./assets/grass.png",
+        "path": "./files/assets/grass.png",
         "transparent": false,
         "solid": false
     },
@@ -22,7 +22,7 @@
     {
         "name" : "wall",
         "identifier": 3,
-        "path": "./assets/wall.png",
+        "path": "./files/assets/wall.png",
         "transparent": false,
         "solid": true
     }
