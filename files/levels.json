@@ -2,8 +2,8 @@
     "menu":
     {
         "name": "menu",
-        "background":"./maps/tobecreated.png",
-        "tiles_build": "./maps/tobecreated.csv"
+        "background":"",
+        "tiles_build": "./maps/menu.csv"
     },
 
     "level_1":
