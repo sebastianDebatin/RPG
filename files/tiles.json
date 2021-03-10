@@ -1,5 +1,5 @@
 {
-    "rock":
+    "1":
     {
         "name" : "rock",
         "identifier": 1,
@@ -9,7 +9,7 @@
 
     },
 
-    "grass":
+    "2":
     {
         "name" : "grass",
         "identifier": 2,
@@ -18,7 +18,7 @@
         "solid": false
     },
 
-    "wall":
+    "3":
     {
         "name" : "wall",
         "identifier": 3,
