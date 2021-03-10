@@ -8,7 +8,7 @@ This file is made up of two parts:
 import pygame
 import os
 from files.gamestate import gamestate
-
+import time # only for fps
 
 ##environment variables
 WIDTH, HEIGHT = 800, 600
@@ -18,8 +18,10 @@ pygame.display.set_caption("RPG")
 
 
 
+
 ## constants
 FPS = 60
+SHOWFPS = True
 
 
 def main():
@@ -32,9 +34,12 @@ def main():
 
     ##loop
     while game_state.run:
+        start_time = time.time()# for FPS calculation
         game_state.gamestate_manager()
+
         clock.tick(FPS)
-    
+        if SHOWFPS:
+            print("FPS:" ,1/(time.time() -start_time))
 
 
 
