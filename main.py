@@ -11,7 +11,7 @@ from files.gamestate import gamestate
 import time # only for fps
 
 ##environment variables
-WIDTH, HEIGHT = 800, 600
+WIDTH, HEIGHT = 800, 800
 WIN = pygame.display.set_mode((WIDTH,HEIGHT))#for Fullscreen: (0, 0), pygame.FULLSCREEN
 pygame.display.set_caption("RPG")
 
