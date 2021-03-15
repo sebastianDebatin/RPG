@@ -12,6 +12,8 @@ import os
 import sys
 import json
 import csv
+from pytmx.util_pygame import load_pygame
+from files.player import player
 
 
 
@@ -22,9 +24,9 @@ class gamestate():
         self.last_state = ""
         self.WIN = WIN
         self.pygame = pygame
-        self.tiles = ""
-        
+        self.tiles = ""        
         self.map_image = ""
+        self.player = player()
 
 
 
@@ -49,14 +51,7 @@ class gamestate():
         if not self.map_image: # load map if this loop is called the first time
             self.load_map("menu")
         
-        for event in self.pygame.event.get():
-
-            if event.type == self.pygame.QUIT:
-                self.state = "quit"
-
-            if event.type == self.pygame.KEYDOWN:
-                if event.key == self.pygame.K_a:
-                    self.state = "quit"
+        self.handle_user_input()
         
         draw_window()
         self.last_state = "menu"
@@ -71,7 +66,7 @@ class gamestate():
         draw_window()    
         self.tiles = self.load_tiles(os.path.normpath("./files/tiles.json"))
         print(self.tiles)
-        self.pygame.time.wait(1000) # test purpose
+        #self.pygame.time.wait(1000) # test purpose
 
     def load_tiles(self, path):
         tiles = {}
@@ -90,21 +85,42 @@ class gamestate():
         return tiles
 
 
+
     def load_map(self,name):
 
-        delta = 16# width and height of the pixarts. # todo: move to global variables
+        DELTA = 16# width and height of the pixarts. # todo: move to global variables
         self.map_image = self.pygame.Surface(self.pygame.display.get_surface().get_size()) # init map with size of WIN
-        with open(os.path.normpath("./files/levels.json")) as f:
-            m = json.load(f)
-            map = m[name]["map"]
+        tmxdata = load_pygame(os.path.normpath(os.path.join("files\maps" ,name + ".tmx")))
 
-            y = 0    
-            for row in map:
-                x = 0    
-                for column in row:                
-                    self.map_image.blit(self.tiles[map[y][x]]["image"],(x*delta,y*delta))
-                    x += 1
-                y += 1
+        for layer in tmxdata:
+            for tile in layer.tiles():
+                x = tile[0] * DELTA
+                y = tile[1] * DELTA
+                self.map_image.blit(tile[2],(x,y))
+
+        # with open(os.path.normpath("./files/levels.json")) as f:
+        #     m = json.load(f)
+        #     map = m[name]["map"]
+
+        #     y = 0    
+        #     for row in map:
+        #         x = 0    
+        #         for column in row:                
+        #             self.map_image.blit(self.tiles[map[y][x]]["image"],(x*delta,y*delta))
+        #             x += 1
+        #         y += 1
+
+
+    def handle_user_input(self):
+
+        for event in self.pygame.event.get():
+
+            if event.type == self.pygame.QUIT:
+                self.state = "quit"
+
+            if event.type == self.pygame.KEYDOWN:
+                if event.key == self.pygame.K_a:
+                    self.state = "quit"
 
 
 
