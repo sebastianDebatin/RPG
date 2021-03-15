@@ -29,7 +29,7 @@ def main():
     clock = pygame.time.Clock()
     game_state = gamestate(WIN,pygame)
 
-    game_state.load()
+    game_state.load() # initial tile load before loop start
 
 
     ##loop
