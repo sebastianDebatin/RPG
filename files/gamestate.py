@@ -122,6 +122,38 @@ class gamestate():
                 if event.key == self.pygame.K_a:
                     self.state = "quit"
 
+                if event.key == self.pygame.K_i:
+                    self.open_inventory()
+
+    
+    def open_inventory(self):
+        
+        def draw_inventory():
+            self.WIN.fill((0,0,0))
+            self.WIN.blit(self.map_image,(0,0))
+            
+            self.pygame.draw.rect(self.WIN, (255,0,0), (175, 75, 200, 100), 2)
+
+
+            self.pygame.display.update()
+
+        draw_inventory()
+
+        running = True
+
+        while running:
+            for event in self.pygame.event.get():
+                if event.type == self.pygame.QUIT:
+                    self.state = "quit"
+
+                if event.type == self.pygame.KEYDOWN:
+                    if event.key == self.pygame.K_ESCAPE:
+                        running = False
+
+
+
+        
+
 
 
 
