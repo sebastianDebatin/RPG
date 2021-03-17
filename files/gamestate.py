@@ -20,12 +20,14 @@ from files.player import player
 class gamestate():
     def __init__(self,WIN,pygame):
         self.run = True
-        self.state = "menu"
+        self.state = "level_1"
         self.last_state = ""
         self.WIN = WIN
         self.pygame = pygame
         self.tiles = ""        
         self.map_image = ""
+        self.inventory_image = ""
+        self.charactermenu_image = ""
         self.player = player()
 
 
@@ -35,37 +37,42 @@ class gamestate():
         if self.state == "quit":
             self.run = False
             self.pygame.quit()
-        if self.state == "menu":
-            if self.last_state != "menu": # reset map_image in case of changed level
+        if self.state == "level_1":
+            if self.last_state != "level_1": # reset map_image in case of changed level
                 self.map_image = ""
-            self.menu_loop()
+            self.level_1_loop()
 
 
-    def menu_loop(self):
-        #print("menu")
+    def level_1_loop(self):
+        #print("level_1")
         def draw_window():
             self.WIN.fill((0,0,0))
             self.WIN.blit(self.map_image,(0,0))
+            self.pygame.draw.rect(self.WIN,(255,0,0),(self.player.posx, self.player.posy, 16, 16))
             self.pygame.display.update()
 
         if not self.map_image: # load map if this loop is called the first time
-            self.load_map("menu")
+            self.load_map("level_1")
         
         self.handle_user_input()
         
         draw_window()
-        self.last_state = "menu"
+        self.last_state = "level_1"
 
     def load(self):
-        #print("load")
+
         def draw_window():
             self.WIN.fill((0,0,0))
             loading = self.pygame.draw.rect(self.WIN, (255,0,0), (175, 75, 200, 100), 2)
             self.pygame.display.update()
 
         draw_window()    
+
+        #load assets
         self.tiles = self.load_tiles(os.path.normpath("./files/tiles.json"))
-        print(self.tiles)
+        self.inventory_image = self.pygame.image.load(os.path.normpath(r"files\assets\inventory.png")).convert()
+        self.charactermenu_image = self.pygame.image.load(os.path.normpath(r"files\assets\charactermenu.png")).convert()
+
         #self.pygame.time.wait(1000) # test purpose
 
     def load_tiles(self, path):
@@ -119,11 +126,26 @@ class gamestate():
                 self.state = "quit"
 
             if event.type == self.pygame.KEYDOWN:
+                #player movement
+                if event.key == self.pygame.K_w:
+                    self.player.move_up()
                 if event.key == self.pygame.K_a:
-                    self.state = "quit"
+                    self.player.move_left()
+                if event.key == self.pygame.K_s:
+                    self.player.move_down()
+                if event.key == self.pygame.K_d:
+                    self.player.move_right()
 
+
+                # keys for menus
                 if event.key == self.pygame.K_i:
                     self.open_inventory()
+
+                if event.key == self.pygame.K_c:
+                    self.open_character_menu()
+
+                if event.key == self.pygame.K_ESCAPE:
+                    pass
 
     
     def open_inventory(self):
@@ -132,7 +154,9 @@ class gamestate():
             self.WIN.fill((0,0,0))
             self.WIN.blit(self.map_image,(0,0))
             
-            self.pygame.draw.rect(self.WIN, (255,0,0), (175, 75, 200, 100), 2)
+            #self.pygame.draw.rect(self.WIN, (255,0,0), (200, 200, 400, 400), 2)
+            #inventory
+            self.WIN.blit(self.inventory_image,(200,200))
 
 
             self.pygame.display.update()
@@ -152,7 +176,32 @@ class gamestate():
 
 
 
-        
+    def open_character_menu(self):
+
+        def draw_character():
+            self.WIN.fill((0,0,0))
+            self.WIN.blit(self.map_image,(0,0))
+            
+            #self.pygame.draw.rect(self.WIN, (255,0,0), (200, 200, 400, 400), 2)
+
+            self.WIN.blit(self.charactermenu_image,(200,200))
+
+
+            self.pygame.display.update()
+
+        draw_character()
+
+        running = True
+
+        while running:
+            for event in self.pygame.event.get():
+                if event.type == self.pygame.QUIT:
+                    self.state = "quit"
+
+                if event.type == self.pygame.KEYDOWN:
+                    if event.key == self.pygame.K_ESCAPE:
+                        running = False
+
 
 
 
@@ -166,7 +215,7 @@ class gamestate():
             self.pygame.display.update()
 
         if not self.map_image: # load map if this loop is called the first time
-            self.load_map("menu")
+            self.load_map("newlevel")
 
         for event in self.pygame.event.get():
 
