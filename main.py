@@ -8,25 +8,29 @@ This file is made up of two parts:
 import pygame
 import os
 from files.gamestate import gamestate
+from files.game_settings import settings
 import time # only for fps
 
 ##environment variables
-WIDTH, HEIGHT = 800, 800
-WIN = pygame.display.set_mode((WIDTH,HEIGHT))#for Fullscreen: (0, 0), pygame.FULLSCREEN
-pygame.display.set_caption("RPG")
+#WIDTH, HEIGHT = 800, 800
 
 
 
 
 
-## constants
-FPS = 60
-SHOWFPS = True
+
 
 
 def main():
+    #constants
+    FPS = 60
+    SHOWFPS = True
+
     ##inits
+    game_settings = settings()
     clock = pygame.time.Clock()
+    WIN = pygame.display.set_mode((game_settings.screen_width, game_settings.screen_height))#for Fullscreen: (0, 0), pygame.FULLSCREEN
+    pygame.display.set_caption(game_settings.game_title)
     game_state = gamestate(WIN,pygame)
 
     game_state.load() # initial tile load before loop start
@@ -40,6 +44,11 @@ def main():
         clock.tick(FPS)
         if SHOWFPS:
             print("FPS:" ,1/(time.time() -start_time))
+
+
+    #save game 
+    game_settings.save_settings()
+
 
 
 
