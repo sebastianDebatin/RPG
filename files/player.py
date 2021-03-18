@@ -17,19 +17,19 @@ class player(pygame.sprite.Sprite):
 
         self.move_up_sprites = []
         for sprite in os.listdir(os.normpath(r"files\assets\char\move_up")):
-            self.move_up_sprites.append(pygame.image.load(sprite))
+            self.move_up_sprites.append(pygame.image.load(sprite).convert_alpha())
 
         self.move_right_sprites = []
         for sprite in os.listdir(os.normpath(r"files\assets\char\move_right")):
-            self.move_right_sprites.append(pygame.image.load(sprite))
+            self.move_right_sprites.append(pygame.image.load(sprite).convert_alpha())
 
         self.move_left_sprites = []
         for sprite in os.listdir(os.normpath(r"files\assets\char\move_left")):
-            self.move_left_sprites.append(pygame.image.load(sprite))
+            self.move_left_sprites.append(pygame.image.load(sprite).convert_alpha())
 
         self.move_down_sprites = []
         for sprite in os.listdir(os.normpath(r"files\assets\char\move_right")):
-            self.move_down_sprites.append(pygame.image.load(sprite))
+            self.move_down_sprites.append(pygame.image.load(sprite).convert_alpha())
                                
 
 
