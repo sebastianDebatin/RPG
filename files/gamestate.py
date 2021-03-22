@@ -13,7 +13,7 @@ import sys
 import json
 import csv
 from pytmx.util_pygame import load_pygame
-from files.player import player
+from files.object_classes import player
 
 
 
@@ -38,9 +38,28 @@ class gamestate():
             self.run = False
             self.pygame.quit()
         if self.state == "level_1":
-            if self.last_state != "level_1": # reset map_image in case of changed level
+            if self.last_state != self.state: # reset map_image in case of changed level
                 self.map_image = ""
             self.level_1_loop()
+        if self.state == "main_menu":
+            if self.last_state != self.state:
+                self.map_image = ""
+            self.main_menu_loop()
+
+    def main_menu_loop(self):
+        def draw_window():
+            pass
+
+        if not self.map_image: # load map if this loop is called the first time
+            self.load_map("main_menu")
+
+        for event in self.pygame.event.get():
+
+            if event.type == self.pygame.QUIT:
+                self.state = "quit"
+
+        draw_window()
+        self.last_state = "main_menu"
 
 
     def level_1_loop(self):
