@@ -55,5 +55,22 @@ class player(pygame.sprite.Sprite):
 
 
 class button(pygame.sprite.Sprite):
-    def __init__(self):
-        pass
+    def __init__(self, img_un, img_highlighted, posx, posy):
+        super().__init__()
+        self.posx = posx
+        self.posy = posy
+        self.img_uncovered = pygame.image.load(img_un).convert_alpha()
+        self.img_highlighted = pygame.image.load(img_highlighted).convert_alpha()
+        self.image = self.img_uncovered
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (self.posx, self.posy)
+
+
+    def update(self):
+
+        mouse_pos = pygame.mouse.get_pos()
+        
+        if self.rect.collidepoint(mouse_pos):
+            self.image = self.img_highlighted
+        else:
+            self.image = self.img_uncovered

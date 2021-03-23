@@ -13,14 +13,14 @@ import sys
 import json
 import csv
 from pytmx.util_pygame import load_pygame
-from files.object_classes import player
+from files.object_classes import *
 
 
 
 class gamestate():
     def __init__(self,WIN,pygame):
         self.run = True
-        self.state = "level_1"
+        self.state = "main_menu"
         self.last_state = ""
         self.WIN = WIN
         self.pygame = pygame
@@ -48,15 +48,34 @@ class gamestate():
 
     def main_menu_loop(self):
         def draw_window():
-            pass
+            self.WIN.fill((0,0,0))
+            self.WIN.blit(self.map_image,(0,0))
+
+            self.buttons_group.draw(self.WIN)
+            self.pygame.display.update()
 
         if not self.map_image: # load map if this loop is called the first time
-            self.load_map("main_menu")
+            self.map_image = pygame.image.load(os.path.normpath(r"files\assets\main_menu_background.png")).convert_alpha()
+            self.buttons_group = pygame.sprite.Group()
+            self.new_button = button(os.path.normpath(r"files\assets\main_menu_new.png"),os.path.normpath(r"files\assets\main_menu_new_highlighted.png"),200,100)
+            self.buttons_group.add(self.new_button)
+
+        # draw the buttons
+        
+
+        #buttons_group.add(...)
+
+        self.buttons_group.update() # check if the mouse position is over any button and highlight if necessary
 
         for event in self.pygame.event.get():
 
             if event.type == self.pygame.QUIT:
                 self.state = "quit"
+            
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if self.new_button.rect.collidepoint(pygame.mouse.get_pos()):
+                    self.state = "level_1"
+
 
         draw_window()
         self.last_state = "main_menu"
